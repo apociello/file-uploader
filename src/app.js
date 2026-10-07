@@ -1,12 +1,22 @@
-import session from 'express-session';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { prisma } from './lib/prisma.js';
 import passport from './config/passport.js';
 import express from 'express';
+import session from 'express-session';
 import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Middleware
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   session({
@@ -26,8 +36,13 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.json());
 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
+
+// Routes
 app.use('/', authRoutes);
 
 app.listen(port, () => {
