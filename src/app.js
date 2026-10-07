@@ -2,6 +2,8 @@ import session from 'express-session';
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { prisma } from './lib/prisma.js';
 import passport from './config/passport.js';
+import express from 'express';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,10 +26,9 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('File Uploader is running');
-});
+app.use('/', authRoutes);
 
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
