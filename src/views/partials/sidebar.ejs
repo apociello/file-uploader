@@ -1,0 +1,17 @@
+<aside class="sidebar">
+  <h2><%= username %>'s folders</h2>
+
+  <nav>
+    <a href="/dashboard" class="sidebar-link active">
+      All files
+    </a>
+
+    <% if (folders && folders.length > 0) { %>
+      <% folders.forEach((folder) => { %>
+        <span class="sidebar-link">
+          <%= folder.name %>
+        </span>
+      <% }); %>
+    <% } %>
+  </nav>
+</aside>
