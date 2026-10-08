@@ -6,6 +6,7 @@ import passport from './config/passport.js';
 import express from 'express';
 import session from 'express-session';
 import authRoutes from './routes/authRoutes.js';
+import folderRoutes from './routes/folderRoutes.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -44,6 +45,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/', authRoutes);
+app.use('/', folderRoutes);
 
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);

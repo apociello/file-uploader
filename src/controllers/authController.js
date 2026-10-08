@@ -48,7 +48,3 @@ export const logout = (req, res, next) => {
     res.redirect('/login');
   });
 };
-
-export const dashBoard = (req, res) => {
-  res.render('dashboard');
-};

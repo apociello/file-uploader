@@ -1,17 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
 </head>
 <body>
-    <h1>Dashboard</h1>
+  <h1>Dashboard</h1>
 
-    <p>Welcome, <%= currentUser.email %></p>
+  <p>Welcome, <%= currentUser.email %></p>
 
-    <form action="/logout" method="POST">
-        <button type="submit">Log out</button>
-    </form>
+  <form action="/logout" method="POST">
+    <button type="submit">Log out</button>
+  </form>
+
+  <h2>New folder</h2>
+  <form action="/folders" method="POST">
+    <input name="name" type="text" required />
+    <button type="submit">Create</button>
+  </form>
+
+  <h2>Folders</h2>
+  <% if (folders.length === 0) { %>
+    <p>No folders yet.</p>
+  <% } else { %>
+    <ul>
+        <% folders.forEach((folder) => { %>
+        <li><%= folder.name %></li>
+        <% }); %>
+    </ul>
+  <% } %>
+  
 </body>
 </html>
