@@ -1,4 +1,6 @@
 AGENTS.md
+CLAUDE.md
+docs/style-reference.css
 node_modules/
 .env
 /generated/prisma

@@ -1,35 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
-</head>
-<body>
-  <h1>Dashboard</h1>
+<%- include('partials/head', { title: 'Dashboard' }) %>
 
-  <p>Welcome, <%= currentUser.email %></p>
+<div class="app">
+  <%- include('partials/header') %>
 
-  <form action="/logout" method="POST">
-    <button type="submit">Log out</button>
-  </form>
+  <div class="app__body">
+    <%- include('partials/sidebar') %>
 
-  <h2>New folder</h2>
-  <form action="/folders" method="POST">
-    <input name="name" type="text" required />
-    <button type="submit">Create</button>
-  </form>
+    <main class="content">
+      <h1><%= username %></h1>
 
-  <h2>Folders</h2>
-  <% if (folders.length === 0) { %>
-    <p>No folders yet.</p>
-  <% } else { %>
-    <ul>
-        <% folders.forEach((folder) => { %>
-        <li><%= folder.name %></li>
-        <% }); %>
-    </ul>
-  <% } %>
-  
+      <button type="button" commandfor="new-folder-dialog" command="show-modal">New folder</button>
+
+      <dialog id="new-folder-dialog" aria-labelledby="new-folder-title">
+        <h2 id="new-folder-title">New folder</h2>
+
+        <form action="/folders" method="POST">
+          <div class="field">
+            <label for="folder-name">Name</label>
+            <input id="folder-name" name="name" type="text" autocomplete="off" autofocus required />
+          </div>
+
+          <button type="button" commandfor="new-folder-dialog" command="close">Cancel</button>
+          <button type="submit">Create</button>
+        </form>
+      </dialog>
+
+      <% if (folders.length === 0) { %>
+        <p>No folders yet.</p>
+      <% } else { %>
+        <ul class="folder-grid">
+          <% folders.forEach((folder) => { %>
+            <li><%= folder.name %></li>
+          <% }); %>
+        </ul>
+      <% } %>
+    </main>
+  </div>
+</div>
+
 </body>
 </html>

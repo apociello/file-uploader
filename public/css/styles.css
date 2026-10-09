@@ -1,0 +1,66 @@
+*,
+*::before,
+*::after {
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+}
+
+/* ---------- App shell: topbar on top, sidebar + content below ---------- */
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+}
+
+.app__body {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 0; /* lets the columns scroll instead of growing */
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid;
+}
+
+.sidebar {
+  padding: 1rem;
+  border-right: 1px solid;
+  overflow-y: auto;
+}
+
+.content {
+  padding: 1rem 1.5rem;
+  overflow-y: auto;
+}
+
+/* ---------- Folder grid ---------- */
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  list-style: none;
+}
+
+/* ---------- Auth pages ---------- */
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
