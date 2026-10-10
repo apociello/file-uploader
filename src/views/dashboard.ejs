@@ -9,7 +9,7 @@
     <main class="content">
       <h1><%= username %></h1>
 
-      <button type="button" commandfor="new-folder-dialog" command="show-modal">New folder</button>
+      <button type="button" class="btn btn--primary" commandfor="new-folder-dialog" command="show-modal">New folder</button>
 
       <dialog id="new-folder-dialog" aria-labelledby="new-folder-title">
         <h2 id="new-folder-title">New folder</h2>
@@ -20,8 +20,10 @@
             <input id="folder-name" name="name" type="text" autocomplete="off" autofocus required />
           </div>
 
-          <button type="button" commandfor="new-folder-dialog" command="close">Cancel</button>
-          <button type="submit">Create</button>
+          <div class="dialog__actions">
+            <button type="button" class="btn" commandfor="new-folder-dialog" command="close">Cancel</button>
+            <button type="submit" class="btn btn--primary">Create</button>
+          </div>
         </form>
       </dialog>
 

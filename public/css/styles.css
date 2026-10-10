@@ -11,6 +11,10 @@
   --border: #343435;
   --text: #f2f2f2;
 
+  --accent: #e8a13a;
+  --accent-hover: #f0b050;
+  --focus-ring: 0 0 0 3px rgba(232, 161, 58, 0.35);
+
   --radius: 10px;
 }
 
@@ -26,6 +30,48 @@ body {
   font-family: system-ui, sans-serif;
   color: var(--text);
   background: var(--bg-page);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Focus ring only when navigating with the keyboard */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  padding: 0.55rem 1rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg-content);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn:hover {
+  background: var(--bg-hover);
+}
+
+.btn--primary {
+  font-weight: 600;
+  color: #1a0e03;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn--primary:hover {
+  background: var(--accent-hover);
 }
 
 /* ---------- App shell: topbar on top, sidebar + content below ---------- */
@@ -109,4 +155,26 @@ body {
   flex-direction: column;
   gap: 0.25rem;
   margin-bottom: 1rem;
+}
+
+.field input {
+  padding: 0.6rem 0.8rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg-content);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
+}
+
+/* ---------- Dialog ---------- */
+.dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
