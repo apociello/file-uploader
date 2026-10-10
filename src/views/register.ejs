@@ -1,8 +1,8 @@
 <%- include('partials/head', { title: 'Sign up' }) %>
 
 <main class="auth">
-  <div>
-    <h1>Sign up</h1>
+  <div class="auth__card">
+    <h1 class="auth__title">Sign up</h1>
 
     <form action="/register" method="POST">
         
@@ -16,13 +16,13 @@
         <input id="password" name="password" type="password" autocomplete="new-password" required />
       </div>
 
-      <button type="submit" class="btn btn--primary">Sign up</button>
+      <button type="submit" class="btn btn--primary btn--block">Sign up</button>
     </form>
 
-    <p>Already have an account? <a href="/login">Log in</a></p>
+    <p class="auth__footer">Already have an account? <a href="/login">Log in</a></p>
 
     <% if (messages.length > 0) { %>
-      <ul>
+      <ul class="alert">
         <% messages.forEach((msg) => { %>
           <li><%= msg %></li>
         <% }); %>

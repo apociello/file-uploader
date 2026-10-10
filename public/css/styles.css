@@ -10,12 +10,18 @@
 
   --border: #343435;
   --text: #f2f2f2;
+  --text-muted: #9a9a9d;
 
   --accent: #e8a13a;
   --accent-hover: #f0b050;
   --focus-ring: 0 0 0 3px rgba(232, 161, 58, 0.35);
 
+  --danger-text: #f3b3ad;
+  --danger-bg: rgba(229, 100, 90, 0.12);
+  --danger-border: rgba(229, 100, 90, 0.4);
+
   --radius: 10px;
+  --radius-lg: 16px;
 }
 
 *,
@@ -29,7 +35,9 @@
 body {
   font-family: system-ui, sans-serif;
   color: var(--text);
-  background: var(--bg-page);
+  /* Only visible on auth pages: the dashboard covers it with .app */
+  background: radial-gradient(ellipse at top left, #2a1608 0%, var(--bg-page) 55%);
+  background-attachment: fixed;
 }
 
 a {
@@ -74,6 +82,10 @@ a:hover {
   background: var(--accent-hover);
 }
 
+.btn--block {
+  width: 100%;
+}
+
 /* ---------- App shell: topbar on top, sidebar + content below ---------- */
 .app {
   display: grid;
@@ -97,6 +109,11 @@ a:hover {
   border-bottom: 1px solid var(--border);
 }
 
+.topbar__brand {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
 .sidebar {
   padding: 1rem;
   background: var(--bg-sidebar);
@@ -104,9 +121,41 @@ a:hover {
   overflow-y: auto;
 }
 
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-item {
+  padding: 0.6rem 0.75rem;
+  color: var(--text);
+  border-radius: var(--radius);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.15s;
+}
+
+.nav-item:hover,
+.nav-item--active {
+  text-decoration: none;
+  background: var(--bg-hover);
+}
+
 .content {
   padding: 1rem 1.5rem;
   overflow-y: auto;
+}
+
+.content__title {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.empty {
+  padding: 2rem 0;
+  color: var(--text-muted);
 }
 
 /* ---------- Folder grid ---------- */
@@ -148,13 +197,51 @@ a:hover {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  padding: 1rem;
 }
 
+.auth__card {
+  width: min(400px, 100%);
+  padding: 2rem;
+  background: var(--bg-topbar);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.auth__title {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.auth__footer {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.alert {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--danger-text);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius);
+}
+
+/* ---------- Forms ---------- */
 .field {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   margin-bottom: 1rem;
+}
+
+.field label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
 }
 
 .field input {
@@ -173,6 +260,25 @@ a:hover {
 }
 
 /* ---------- Dialog ---------- */
+dialog {
+  width: min(420px, 90vw);
+  margin: auto; /* the reset removes the browser's centering margin */
+  padding: 1.5rem;
+  color: var(--text);
+  background: var(--bg-topbar);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.dialog__title {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
 .dialog__actions {
   display: flex;
   justify-content: flex-end;

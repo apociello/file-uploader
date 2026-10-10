@@ -7,12 +7,12 @@
     <%- include('partials/sidebar') %>
 
     <main class="content">
-      <h1><%= username %></h1>
+      <h1 class="content__title"><%= username %></h1>
 
       <button type="button" class="btn btn--primary" commandfor="new-folder-dialog" command="show-modal">New folder</button>
 
       <dialog id="new-folder-dialog" aria-labelledby="new-folder-title">
-        <h2 id="new-folder-title">New folder</h2>
+        <h2 id="new-folder-title" class="dialog__title">New folder</h2>
 
         <form action="/folders" method="POST">
           <div class="field">
@@ -28,7 +28,7 @@
       </dialog>
 
       <% if (folders.length === 0) { %>
-        <p>No folders yet.</p>
+        <p class="empty">No folders yet.</p>
       <% } else { %>
         <ul class="folder-grid">
           <% folders.forEach((folder) => { %>
