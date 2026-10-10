@@ -30,7 +30,10 @@
       <% } else { %>
         <ul class="folder-grid">
           <% folders.forEach((folder) => { %>
-            <li><%= folder.name %></li>
+            <li class="folder-card">
+              <img src="/images/folder.svg" alt="" class="folder-card__icon" />
+              <span class="folder-card__name"><%= folder.name %></span>
+            </li>
           <% }); %>
         </ul>
       <% } %>

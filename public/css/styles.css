@@ -1,3 +1,19 @@
+/* ---------- Design tokens ---------- */
+:root {
+  color-scheme: dark; /* native controls (buttons, inputs, scrollbars) render dark too */
+
+  --bg-page: #0e0b09;
+  --bg-topbar: #19191a;
+  --bg-sidebar: #1b1b1c;
+  --bg-content: #262627;
+  --bg-hover: #303031;
+
+  --border: #343435;
+  --text: #f2f2f2;
+
+  --radius: 10px;
+}
+
 *,
 *::before,
 *::after {
@@ -8,6 +24,8 @@
 
 body {
   font-family: system-ui, sans-serif;
+  color: var(--text);
+  background: var(--bg-page);
 }
 
 /* ---------- App shell: topbar on top, sidebar + content below ---------- */
@@ -15,6 +33,7 @@ body {
   display: grid;
   grid-template-rows: auto 1fr;
   height: 100vh;
+  background: var(--bg-content);
 }
 
 .app__body {
@@ -28,12 +47,14 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid;
+  background: var(--bg-topbar);
+  border-bottom: 1px solid var(--border);
 }
 
 .sidebar {
   padding: 1rem;
-  border-right: 1px solid;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
   overflow-y: auto;
 }
 
@@ -47,7 +68,32 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 1rem;
+  margin-top: 1.5rem;
   list-style: none;
+}
+
+.folder-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.75rem;
+  border-radius: var(--radius);
+  transition: background 0.15s;
+}
+
+.folder-card:hover {
+  background: var(--bg-hover);
+}
+
+.folder-card__icon {
+  width: 96px;
+  height: 96px;
+}
+
+.folder-card__name {
+  text-align: center;
+  word-break: break-word;
 }
 
 /* ---------- Auth pages ---------- */
