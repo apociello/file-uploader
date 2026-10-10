@@ -85,11 +85,13 @@
   align-items: center;
   gap: 0.5rem;
   padding: 1rem 0.75rem;
+  color: var(--text);
   border-radius: var(--radius);
   transition: background 0.15s;
 }
 
 .folder-card:hover {
+  text-decoration: none;
   background: var(--bg-hover);
 }
 

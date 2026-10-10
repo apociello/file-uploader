@@ -1,4 +1,5 @@
-<%- include('partials/head', { title: 'Dashboard', stylesheet: 'dashboard' }) %>
+<% const heading = currentFolder ? currentFolder.name : username; %>
+<%- include('partials/head', { title: heading, stylesheet: 'dashboard' }) %>
 
 <div class="app">
   <%- include('partials/header') %>
@@ -7,7 +8,7 @@
     <%- include('partials/sidebar') %>
 
     <main class="content">
-      <h1 class="content__title"><%= username %></h1>
+      <h1 class="content__title"><%= heading %></h1>
 
       <button type="button" class="btn btn--primary" commandfor="new-folder-dialog" command="show-modal">New folder</button>
 
@@ -32,9 +33,11 @@
       <% } else { %>
         <ul class="folder-grid">
           <% folders.forEach((folder) => { %>
-            <li class="folder-card">
-              <img src="/images/folder.svg" alt="" class="folder-card__icon" />
-              <span class="folder-card__name"><%= folder.name %></span>
+            <li>
+              <a href="/folders/<%= folder.id %>" class="folder-card">
+                <img src="/images/folder.svg" alt="" class="folder-card__icon" />
+                <span class="folder-card__name"><%= folder.name %></span>
+              </a>
             </li>
           <% }); %>
         </ul>
