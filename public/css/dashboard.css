@@ -1,0 +1,130 @@
+/* ---------- App shell: topbar on top, sidebar + content below ---------- */
+.app {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  background: var(--bg-content);
+}
+
+.app__body {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 0; /* lets the columns scroll instead of growing */
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--bg-topbar);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar__brand {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.sidebar {
+  padding: 1rem;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-item {
+  padding: 0.6rem 0.75rem;
+  color: var(--text);
+  border-radius: var(--radius);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.15s;
+}
+
+.nav-item:hover,
+.nav-item--active {
+  text-decoration: none;
+  background: var(--bg-hover);
+}
+
+.content {
+  padding: 1rem 1.5rem;
+  overflow-y: auto;
+}
+
+.content__title {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+}
+
+.empty {
+  padding: 2rem 0;
+  color: var(--text-muted);
+}
+
+/* ---------- Folder grid ---------- */
+.folder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+  list-style: none;
+}
+
+.folder-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.75rem;
+  border-radius: var(--radius);
+  transition: background 0.15s;
+}
+
+.folder-card:hover {
+  background: var(--bg-hover);
+}
+
+.folder-card__icon {
+  width: 96px;
+  height: 96px;
+}
+
+.folder-card__name {
+  text-align: center;
+  word-break: break-word;
+}
+
+/* ---------- Dialog ---------- */
+dialog {
+  width: min(420px, 90vw);
+  margin: auto; /* the reset removes the browser's centering margin */
+  padding: 1.5rem;
+  color: var(--text);
+  background: var(--bg-topbar);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.dialog__title {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}

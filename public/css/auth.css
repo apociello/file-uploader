@@ -1,0 +1,43 @@
+body {
+  background: radial-gradient(ellipse at top left, #2a1608 0%, var(--bg-page) 55%);
+  background-attachment: fixed;
+}
+
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.auth__card {
+  width: min(400px, 100%);
+  padding: 2rem;
+  background: var(--bg-topbar);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.auth__title {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.auth__footer {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.alert {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--danger-text);
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  border-radius: var(--radius);
+}
