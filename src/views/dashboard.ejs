@@ -49,12 +49,7 @@
       <% } else { %>
         <ul class="folder-grid">
           <% folders.forEach((folder) => { %>
-            <li>
-              <a href="/folders/<%= folder.id %>" class="folder-card">
-                <img src="/images/folder.svg" alt="" class="folder-card__icon" />
-                <span class="folder-card__name"><%= folder.name %></span>
-              </a>
-            </li>
+            <%- include('partials/folder-card', { folder }) %>
           <% }); %>
         </ul>
       <% } %>

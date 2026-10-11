@@ -1,0 +1,35 @@
+<li class="folder-card">
+  <a href="/folders/<%= folder.id %>" class="folder-card__link">
+    <img src="/images/folder.svg" alt="" class="folder-card__icon" />
+    <span class="folder-card__name"><%= folder.name %></span>
+  </a>
+
+  <button
+    type="button"
+    class="folder-card__menu-btn"
+    popovertarget="folder-menu-<%= folder.id %>"
+    aria-label="Actions for <%= folder.name %>"
+  >
+    <img src="/images/ellipsis.svg" alt="" />
+  </button>
+
+  <div id="folder-menu-<%= folder.id %>" class="menu" popover>
+    <button type="button" class="menu__item" commandfor="rename-folder-<%= folder.id %>" command="show-modal">Rename</button>
+  </div>
+
+  <dialog id="rename-folder-<%= folder.id %>" aria-labelledby="rename-folder-title-<%= folder.id %>">
+    <h2 id="rename-folder-title-<%= folder.id %>" class="dialog__title">Rename folder</h2>
+
+    <form action="/folders/<%= folder.id %>/rename" method="POST">
+      <div class="field">
+        <label for="rename-folder-name-<%= folder.id %>">Name</label>
+        <input id="rename-folder-name-<%= folder.id %>" name="name" type="text" value="<%= folder.name %>" autocomplete="off" autofocus required />
+      </div>
+
+      <div class="dialog__actions">
+        <button type="button" class="btn" commandfor="rename-folder-<%= folder.id %>" command="close">Cancel</button>
+        <button type="submit" class="btn btn--primary">Rename</button>
+      </div>
+    </form>
+  </dialog>
+</li>

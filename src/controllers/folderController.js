@@ -51,6 +51,33 @@ export const showFolder = async (req, res, next) => {
   }
 };
 
+export const renameFolder = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id)) return res.status(404).send('Folder not found');
+
+    const folder = await prisma.folder.findFirst({
+      where: { id, ownerId: req.user.id },
+      select: { id: true, parentId: true },
+    });
+    if (!folder) return res.status(404).send('Folder not found');
+
+    // The renamed card lives in the parent's view, so go back there
+    const redirectTo = folder.parentId ? `/folders/${folder.parentId}` : '/dashboard';
+
+    const name = req.body.name?.trim();
+    if (!name) return res.redirect(redirectTo);
+
+    await prisma.folder.update({
+      where: { id },
+      data: { name },
+    });
+    res.redirect(redirectTo);
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const createFolder = async (req, res, next) => {
   try {
     const name = req.body.name?.trim();

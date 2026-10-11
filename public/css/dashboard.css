@@ -100,6 +100,16 @@
 }
 
 .folder-card {
+  position: relative; /* anchors the absolutely positioned menu button */
+  border-radius: var(--radius);
+  transition: background 0.15s;
+}
+
+.folder-card:hover {
+  background: var(--bg-hover);
+}
+
+.folder-card__link {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,12 +117,35 @@
   padding: 1rem 0.75rem;
   color: var(--text);
   border-radius: var(--radius);
-  transition: background 0.15s;
 }
 
-.folder-card:hover {
+.folder-card__link:hover {
   text-decoration: none;
-  background: var(--bg-hover);
+}
+
+.folder-card__menu-btn {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  display: flex;
+  padding: 0.25rem;
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+/* Visible on hover, on keyboard focus inside the card, and while its menu is open */
+.folder-card:hover .folder-card__menu-btn,
+.folder-card:focus-within .folder-card__menu-btn,
+.folder-card:has(:popover-open) .folder-card__menu-btn {
+  opacity: 1;
+}
+
+.folder-card__menu-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .folder-card__icon {
@@ -123,6 +156,36 @@
 .folder-card__name {
   text-align: center;
   word-break: break-word;
+}
+
+/* ---------- Popover menu ---------- */
+.menu {
+  /* Place it below the button that opened it, aligned to its right edge */
+  position-area: bottom span-left;
+  position-try-fallbacks: flip-block;
+  min-width: 140px;
+  margin-top: 0.25rem;
+  padding: 0.25rem;
+  background: var(--bg-topbar);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.menu__item {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  text-align: left;
+  color: var(--text);
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.menu__item:hover {
+  background: var(--bg-hover);
 }
 
 /* ---------- Dialog ---------- */
