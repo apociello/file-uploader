@@ -1,12 +1,31 @@
 import { prisma } from '../lib/prisma.js';
 
+// Walks up the parent chain, returning ancestors from the root down
+const getAncestors = async (folder, ownerId) => {
+  const ancestors = [];
+  let parentId = folder.parentId;
+
+  while (parentId) {
+    const parent = await prisma.folder.findFirst({
+      where: { id: parentId, ownerId },
+      select: { id: true, name: true, parentId: true },
+    });
+    if (!parent) break;
+
+    ancestors.unshift(parent);
+    parentId = parent.parentId;
+  }
+
+  return ancestors;
+};
+
 export const dashboard = async (req, res, next) => {
   try {
     const folders = await prisma.folder.findMany({
       where: { ownerId: req.user.id, parentId: null },
       orderBy: { name: 'asc' },
     });
-    res.render('dashboard', { folders, currentFolder: null });
+    res.render('dashboard', { folders, currentFolder: null, ancestors: [] });
   } catch (err) {
     next(err);
   }
@@ -24,7 +43,9 @@ export const showFolder = async (req, res, next) => {
     });
     if (!folder) return res.status(404).send('Folder not found');
 
-    res.render('dashboard', { folders: folder.children, currentFolder: folder });
+    const ancestors = await getAncestors(folder, req.user.id);
+
+    res.render('dashboard', { folders: folder.children, currentFolder: folder, ancestors });
   } catch (err) {
     next(err);
   }

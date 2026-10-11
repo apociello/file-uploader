@@ -8,9 +8,21 @@
     <%- include('partials/sidebar') %>
 
     <main class="content">
-      <h1 class="content__title"><%= heading %></h1>
+      <nav aria-label="Breadcrumb">
+        <ol class="breadcrumb">
+          <% if (currentFolder) { %>
+            <li><a href="/dashboard"><%= username %></a></li>
+            <% ancestors.forEach((ancestor) => { %>
+              <li><a href="/folders/<%= ancestor.id %>"><%= ancestor.name %></a></li>
+            <% }); %>
+            <li aria-current="page"><%= currentFolder.name %></li>
+          <% } else { %>
+            <li aria-current="page"><%= username %></li>
+          <% } %>
+        </ol>
+      </nav>
 
-      <button type="button" class="btn btn--primary" commandfor="new-folder-dialog" command="show-modal">New folder</button>
+      <button type="button" class="btn" commandfor="new-folder-dialog" command="show-modal">New folder</button>
 
       <dialog id="new-folder-dialog" aria-labelledby="new-folder-title">
         <h2 id="new-folder-title" class="dialog__title">New folder</h2>
