@@ -28,6 +28,10 @@
         <h2 id="new-folder-title" class="dialog__title">New folder</h2>
 
         <form action="/folders" method="POST">
+          <% if (currentFolder) { %>
+            <input type="hidden" name="parentId" value="<%= currentFolder.id %>" />
+          <% } %>
+
           <div class="field">
             <label for="folder-name">Name</label>
             <input id="folder-name" name="name" type="text" autocomplete="off" autofocus required />

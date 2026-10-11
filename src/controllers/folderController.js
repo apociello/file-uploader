@@ -54,12 +54,26 @@ export const showFolder = async (req, res, next) => {
 export const createFolder = async (req, res, next) => {
   try {
     const name = req.body.name?.trim();
-    if (!name) return res.redirect('/dashboard');
+    const parentId = req.body.parentId ? Number(req.body.parentId) : null;
+
+    // The hidden input can be edited in the browser: verify the parent is ours
+    if (parentId !== null) {
+      if (!Number.isInteger(parentId)) return res.status(404).send('Folder not found');
+
+      const parent = await prisma.folder.findFirst({
+        where: { id: parentId, ownerId: req.user.id },
+        select: { id: true },
+      });
+      if (!parent) return res.status(404).send('Folder not found');
+    }
+
+    const redirectTo = parentId ? `/folders/${parentId}` : '/dashboard';
+    if (!name) return res.redirect(redirectTo);
 
     await prisma.folder.create({
-      data: { name, ownerId: req.user.id },
+      data: { name, ownerId: req.user.id, parentId },
     });
-    res.redirect('/dashboard');
+    res.redirect(redirectTo);
   } catch (err) {
     next(err);
   }
