@@ -23,7 +23,7 @@
     <form action="/folders/<%= folder.id %>/rename" method="POST">
       <div class="field">
         <label for="rename-folder-name-<%= folder.id %>">Name</label>
-        <input id="rename-folder-name-<%= folder.id %>" name="name" type="text" value="<%= folder.name %>" autocomplete="off" autofocus required />
+        <input id="rename-folder-name-<%= folder.id %>" name="name" type="text" value="<%= folder.name %>" autocomplete="off" autofocus required data-cursor-end />
       </div>
 
       <div class="dialog__actions">
