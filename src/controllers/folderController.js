@@ -19,6 +19,19 @@ const getAncestors = async (folder, ownerId) => {
   return ancestors;
 };
 
+// Returns the folder only if the id is valid and it belongs to the user, otherwise null.
+// Filtering by ownerId too: someone else's folder is treated as not found.
+// `query` is passed to Prisma as is (select, include...)
+const findOwnedFolder = async (idParam, ownerId, query = {}) => {
+  const id = Number(idParam);
+  if (!Number.isInteger(id)) return null;
+
+  return prisma.folder.findFirst({
+    ...query,
+    where: { id, ownerId },
+  });
+};
+
 export const dashboard = async (req, res, next) => {
   try {
     const folders = await prisma.folder.findMany({
@@ -33,12 +46,7 @@ export const dashboard = async (req, res, next) => {
 
 export const showFolder = async (req, res, next) => {
   try {
-    const id = Number(req.params.id);
-    if (!Number.isInteger(id)) return res.status(404).send('Folder not found');
-
-    // Filtering by ownerId too: someone else's folder is treated as not found
-    const folder = await prisma.folder.findFirst({
-      where: { id, ownerId: req.user.id },
+    const folder = await findOwnedFolder(req.params.id, req.user.id, {
       include: { children: { orderBy: { name: 'asc' } } },
     });
     if (!folder) return res.status(404).send('Folder not found');
@@ -53,11 +61,7 @@ export const showFolder = async (req, res, next) => {
 
 export const renameFolder = async (req, res, next) => {
   try {
-    const id = Number(req.params.id);
-    if (!Number.isInteger(id)) return res.status(404).send('Folder not found');
-
-    const folder = await prisma.folder.findFirst({
-      where: { id, ownerId: req.user.id },
+    const folder = await findOwnedFolder(req.params.id, req.user.id, {
       select: { id: true, parentId: true },
     });
     if (!folder) return res.status(404).send('Folder not found');
@@ -69,7 +73,7 @@ export const renameFolder = async (req, res, next) => {
     if (!name) return res.redirect(redirectTo);
 
     await prisma.folder.update({
-      where: { id },
+      where: { id: folder.id },
       data: { name },
     });
     res.redirect(redirectTo);
@@ -81,17 +85,15 @@ export const renameFolder = async (req, res, next) => {
 export const createFolder = async (req, res, next) => {
   try {
     const name = req.body.name?.trim();
-    const parentId = req.body.parentId ? Number(req.body.parentId) : null;
+    let parentId = null;
 
     // The hidden input can be edited in the browser: verify the parent is ours
-    if (parentId !== null) {
-      if (!Number.isInteger(parentId)) return res.status(404).send('Folder not found');
-
-      const parent = await prisma.folder.findFirst({
-        where: { id: parentId, ownerId: req.user.id },
+    if (req.body.parentId) {
+      const parent = await findOwnedFolder(req.body.parentId, req.user.id, {
         select: { id: true },
       });
       if (!parent) return res.status(404).send('Folder not found');
+      parentId = parent.id;
     }
 
     const redirectTo = parentId ? `/folders/${parentId}` : '/dashboard';
