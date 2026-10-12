@@ -82,6 +82,22 @@ export const renameFolder = async (req, res, next) => {
   }
 };
 
+export const deleteFolder = async (req, res, next) => {
+  try {
+    const folder = await findOwnedFolder(req.params.id, req.user.id, {
+      select: { id: true, parentId: true },
+    });
+    if (!folder) return res.status(404).send('Folder not found');
+
+    // Subfolders are removed by the database (onDelete: Cascade in the schema)
+    await prisma.folder.delete({ where: { id: folder.id } });
+
+    res.redirect(folder.parentId ? `/folders/${folder.parentId}` : '/dashboard');
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const createFolder = async (req, res, next) => {
   try {
     const name = req.body.name?.trim();

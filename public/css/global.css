@@ -80,6 +80,17 @@ a:hover {
   background: var(--accent-hover);
 }
 
+.btn--danger {
+  font-weight: 600;
+  color: var(--danger-text);
+  background: var(--danger-bg);
+  border-color: var(--danger-border);
+}
+
+.btn--danger:hover {
+  background: rgba(229, 100, 90, 0.25);
+}
+
 .btn--block {
   width: 100%;
 }

@@ -15,6 +15,7 @@
 
   <div id="folder-menu-<%= folder.id %>" class="menu" popover>
     <button type="button" class="menu__item" commandfor="rename-folder-<%= folder.id %>" command="show-modal">Rename</button>
+    <button type="button" class="menu__item" commandfor="delete-folder-<%= folder.id %>" command="show-modal">Delete</button>
   </div>
 
   <dialog id="rename-folder-<%= folder.id %>" aria-labelledby="rename-folder-title-<%= folder.id %>">
@@ -29,6 +30,17 @@
       <div class="dialog__actions">
         <button type="button" class="btn" commandfor="rename-folder-<%= folder.id %>" command="close">Cancel</button>
         <button type="submit" class="btn btn--primary">Rename</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="delete-folder-<%= folder.id %>" aria-labelledby="delete-folder-title-<%= folder.id %>">
+    <h2 id="delete-folder-title-<%= folder.id %>" class="dialog__title">Delete '<%= folder.name %>' and everything inside it?</h2>
+
+    <form action="/folders/<%= folder.id %>/delete" method="POST">
+      <div class="dialog__actions">
+        <button type="button" class="btn" commandfor="delete-folder-<%= folder.id %>" command="close" autofocus>Cancel</button>
+        <button type="submit" class="btn btn--danger">Delete</button>
       </div>
     </form>
   </dialog>
