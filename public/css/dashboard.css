@@ -85,6 +85,11 @@
   color: var(--text);
 }
 
+.toolbar {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .empty {
   padding: 2rem 0;
   color: var(--text-muted);
@@ -156,6 +161,30 @@
 .folder-card__name {
   text-align: center;
   word-break: break-word;
+}
+
+/* ---------- File list ---------- */
+.file-list {
+  margin-top: 1.5rem;
+  list-style: none;
+  border-top: 1px solid var(--border);
+}
+
+.file-list__item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.file-list__name {
+  word-break: break-word;
+}
+
+.file-list__size {
+  flex-shrink: 0;
+  color: var(--text-muted);
 }
 
 /* ---------- Popover menu ---------- */

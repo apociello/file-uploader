@@ -22,7 +22,7 @@ const getAncestors = async (folder, ownerId) => {
 // Returns the folder only if the id is valid and it belongs to the user, otherwise null.
 // Filtering by ownerId too: someone else's folder is treated as not found.
 // `query` is passed to Prisma as is (select, include...)
-const findOwnedFolder = async (idParam, ownerId, query = {}) => {
+export const findOwnedFolder = async (idParam, ownerId, query = {}) => {
   const id = Number(idParam);
   if (!Number.isInteger(id)) return null;
 
@@ -34,11 +34,17 @@ const findOwnedFolder = async (idParam, ownerId, query = {}) => {
 
 export const dashboard = async (req, res, next) => {
   try {
-    const folders = await prisma.folder.findMany({
-      where: { ownerId: req.user.id, parentId: null },
-      orderBy: { name: 'asc' },
-    });
-    res.render('dashboard', { folders, currentFolder: null, ancestors: [] });
+    const [folders, files] = await Promise.all([
+      prisma.folder.findMany({
+        where: { ownerId: req.user.id, parentId: null },
+        orderBy: { name: 'asc' },
+      }),
+      prisma.file.findMany({
+        where: { ownerId: req.user.id, folderId: null },
+        orderBy: { name: 'asc' },
+      }),
+    ]);
+    res.render('dashboard', { folders, files, currentFolder: null, ancestors: [] });
   } catch (err) {
     next(err);
   }
@@ -47,13 +53,21 @@ export const dashboard = async (req, res, next) => {
 export const showFolder = async (req, res, next) => {
   try {
     const folder = await findOwnedFolder(req.params.id, req.user.id, {
-      include: { children: { orderBy: { name: 'asc' } } },
+      include: {
+        children: { orderBy: { name: 'asc' } },
+        files: { orderBy: { name: 'asc' } },
+      },
     });
     if (!folder) return res.status(404).send('Folder not found');
 
     const ancestors = await getAncestors(folder, req.user.id);
 
-    res.render('dashboard', { folders: folder.children, currentFolder: folder, ancestors });
+    res.render('dashboard', {
+      folders: folder.children,
+      files: folder.files,
+      currentFolder: folder,
+      ancestors,
+    });
   } catch (err) {
     next(err);
   }

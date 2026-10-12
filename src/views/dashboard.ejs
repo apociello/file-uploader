@@ -22,7 +22,10 @@
         </ol>
       </nav>
 
-      <button type="button" class="btn" commandfor="new-folder-dialog" command="show-modal">New folder</button>
+      <div class="toolbar">
+        <button type="button" class="btn" commandfor="new-folder-dialog" command="show-modal">New folder</button>
+        <button type="button" class="btn" commandfor="new-file-dialog" command="show-modal">New file</button>
+      </div>
 
       <dialog id="new-folder-dialog" aria-labelledby="new-folder-title">
         <h2 id="new-folder-title" class="dialog__title">New folder</h2>
@@ -44,12 +47,46 @@
         </form>
       </dialog>
 
-      <% if (folders.length === 0) { %>
-        <p class="empty">No folders yet.</p>
-      <% } else { %>
+      <dialog id="new-file-dialog" aria-labelledby="new-file-title">
+        <h2 id="new-file-title" class="dialog__title">Upload file</h2>
+
+        <!-- multipart/form-data is the encoding that can carry a file's bytes -->
+        <form action="/files" method="POST" enctype="multipart/form-data">
+          <% if (currentFolder) { %>
+            <input type="hidden" name="folderId" value="<%= currentFolder.id %>" />
+          <% } %>
+
+          <div class="field">
+            <label for="file-input">File</label>
+            <input id="file-input" name="file" type="file" required />
+          </div>
+
+          <div class="dialog__actions">
+            <button type="button" class="btn" commandfor="new-file-dialog" command="close">Cancel</button>
+            <button type="submit" class="btn btn--primary">Upload</button>
+          </div>
+        </form>
+      </dialog>
+
+      <% if (folders.length === 0 && files.length === 0) { %>
+        <p class="empty">This folder is empty.</p>
+      <% } %>
+
+      <% if (folders.length > 0) { %>
         <ul class="folder-grid">
           <% folders.forEach((folder) => { %>
             <%- include('partials/folder-card', { folder }) %>
+          <% }); %>
+        </ul>
+      <% } %>
+
+      <% if (files.length > 0) { %>
+        <ul class="file-list">
+          <% files.forEach((file) => { %>
+            <li class="file-list__item">
+              <span class="file-list__name"><%= file.name %></span>
+              <span class="file-list__size"><%= (file.size / 1024).toFixed(1) %> KB</span>
+            </li>
           <% }); %>
         </ul>
       <% } %>
