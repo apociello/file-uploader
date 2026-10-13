@@ -58,7 +58,8 @@
 
           <div class="field">
             <label for="file-input">File</label>
-            <input id="file-input" name="file" type="file" required />
+            <input id="file-input" name="file" type="file" required data-max-size="<%= MAX_FILE_SIZE %>" aria-describedby="file-error" />
+            <p id="file-error" class="field__error" hidden></p>
           </div>
 
           <div class="dialog__actions">

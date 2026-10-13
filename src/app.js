@@ -9,6 +9,7 @@ import authRoutes from './routes/authRoutes.js';
 import folderRoutes from './routes/folderRoutes.js';
 import fileRoutes from './routes/fileRoutes.js';
 import { formatSize } from './lib/format.js';
+import { MAX_FILE_SIZE } from './config/multer.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,6 +23,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Available in every view
 app.locals.formatSize = formatSize;
+app.locals.MAX_FILE_SIZE = MAX_FILE_SIZE;
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({ extended: true }));
