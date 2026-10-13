@@ -15,6 +15,24 @@ const findOwnedFile = async (idParam, ownerId, query = {}) => {
   });
 };
 
+export const deleteFile = async (req, res, next) => {
+  try {
+    const file = await findOwnedFile(req.params.id, req.user.id, {
+      select: { id: true, folderId: true, storageKey: true },
+    });
+    if (!file) return res.status(404).send('File not found');
+
+    // Database first: if removing it from disk fails, the user never sees a
+    // broken file, there's just an orphan left in uploads/
+    await prisma.file.delete({ where: { id: file.id } });
+    await fs.unlink(path.join(UPLOADS_DIR, file.storageKey)).catch(() => {});
+
+    res.redirect(file.folderId ? `/folders/${file.folderId}` : '/dashboard');
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const downloadFile = async (req, res, next) => {
   try {
     const file = await findOwnedFile(req.params.id, req.user.id);

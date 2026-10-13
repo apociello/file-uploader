@@ -89,6 +89,21 @@
               <a href="/files/<%= file.id %>/download" class="icon-btn" aria-label="Download <%= file.name %>" title="Download">
                 <img src="/images/download.svg" alt="" />
               </a>
+              
+              <button type="button" class="icon-btn" commandfor="delete-file-<%= file.id %>" command="show-modal" aria-label="Delete <%= file.name %>" title="Delete">
+                <img src="/images/trash.svg" alt="" />
+              </button>
+
+              <dialog id="delete-file-<%= file.id %>" aria-labelledby="delete-file-title-<%= file.id %>">
+                <h2 id="delete-file-title-<%= file.id %>" class="dialog__title">Delete '<%= file.name %>'?</h2>
+
+                <form action="/files/<%= file.id %>/delete" method="POST">
+                  <div class="dialog__actions">
+                    <button type="button" class="btn" commandfor="delete-file-<%= file.id %>" command="close" autofocus>Cancel</button>
+                    <button type="submit" class="btn btn--danger">Delete</button>
+                  </div>
+                </form>
+              </dialog>
             </li>
           <% }); %>
         </ul>
