@@ -8,6 +8,7 @@ import session from 'express-session';
 import authRoutes from './routes/authRoutes.js';
 import folderRoutes from './routes/folderRoutes.js';
 import fileRoutes from './routes/fileRoutes.js';
+import { formatSize } from './lib/format.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,6 +19,9 @@ const __dirname = path.dirname(__filename);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+// Available in every view
+app.locals.formatSize = formatSize;
 
 app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({ extended: true }));
