@@ -172,19 +172,36 @@
 
 .file-list__item {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
   gap: 1rem;
   padding: 0.75rem 0.5rem;
   border-bottom: 1px solid var(--border);
 }
 
+/* Takes the free space, pushing size and actions to the right */
 .file-list__name {
+  flex: 1;
   word-break: break-word;
 }
 
 .file-list__size {
   flex-shrink: 0;
   color: var(--text-muted);
+}
+
+/* Small square button that only shows an icon */
+.icon-btn {
+  display: flex;
+  flex-shrink: 0;
+  padding: 0.35rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.icon-btn img {
+  width: 21px;
+  height: 21px;
 }
 
 /* ---------- Popover menu ---------- */

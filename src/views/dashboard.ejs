@@ -85,7 +85,10 @@
           <% files.forEach((file) => { %>
             <li class="file-list__item">
               <span class="file-list__name"><%= file.name %></span>
-              <span class="file-list__size"><%= (file.size / 1024).toFixed(1) %> KB</span>
+              <span class="file-list__size"><%= formatSize(file.size) %></span>
+              <a href="/files/<%= file.id %>/download" class="icon-btn" aria-label="Download <%= file.name %>" title="Download">
+                <img src="/images/download.svg" alt="" />
+              </a>
             </li>
           <% }); %>
         </ul>
