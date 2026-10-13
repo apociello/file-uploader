@@ -1,4 +1,7 @@
+import fs from 'fs/promises';
+import path from 'path';
 import { prisma } from '../lib/prisma.js';
+import { UPLOADS_DIR } from '../config/multer.js';
 
 // Walks up the parent chain, returning ancestors from the root down
 const getAncestors = async (folder, ownerId) => {
@@ -17,6 +20,23 @@ const getAncestors = async (folder, ownerId) => {
   }
 
   return ancestors;
+};
+
+// Returns the ids of the folder and all its subfolders, going down one level at a time
+const getDescendantIds = async (folderId, ownerId) => {
+  const ids = [folderId];
+  let level = [folderId];
+
+  while (level.length > 0) {
+    const children = await prisma.folder.findMany({
+      where: { parentId: { in: level }, ownerId },
+      select: { id: true },
+    });
+    level = children.map((child) => child.id);
+    ids.push(...level);
+  }
+
+  return ids;
 };
 
 // Returns the folder only if the id is valid and it belongs to the user, otherwise null.
@@ -103,8 +123,20 @@ export const deleteFolder = async (req, res, next) => {
     });
     if (!folder) return res.status(404).send('Folder not found');
 
-    // Subfolders are removed by the database (onDelete: Cascade in the schema)
+    // Save where the files live on disk before their rows are gone
+    const folderIds = await getDescendantIds(folder.id, req.user.id);
+    const files = await prisma.file.findMany({
+      where: { folderId: { in: folderIds } },
+      select: { storageKey: true },
+    });
+
+    // Subfolders and files are removed by the database (onDelete: Cascade in the schema)
     await prisma.folder.delete({ where: { id: folder.id } });
+
+    // The database only removes rows, so clean up uploads/ ourselves
+    await Promise.all(
+      files.map((file) => fs.unlink(path.join(UPLOADS_DIR, file.storageKey)).catch(() => {})),
+    );
 
     res.redirect(folder.parentId ? `/folders/${folder.parentId}` : '/dashboard');
   } catch (err) {

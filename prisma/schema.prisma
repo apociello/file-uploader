@@ -55,7 +55,7 @@ model File {
   updatedAt  DateTime @updatedAt
 
   owner  User    @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  folder Folder? @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  folder Folder? @relation(fields: [folderId], references: [id], onDelete: Cascade)
 
   @@index([ownerId])
   @@index([folderId])
