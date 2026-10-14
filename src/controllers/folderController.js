@@ -78,7 +78,7 @@ export const showFolder = async (req, res, next) => {
         files: { orderBy: { name: 'asc' } },
       },
     });
-    if (!folder) return res.status(404).send('Folder not found');
+    if (!folder) return res.status(404).render('error', { message: 'Folder not found' });
 
     const ancestors = await getAncestors(folder, req.user.id);
 
@@ -98,7 +98,7 @@ export const renameFolder = async (req, res, next) => {
     const folder = await findOwnedFolder(req.params.id, req.user.id, {
       select: { id: true, parentId: true },
     });
-    if (!folder) return res.status(404).send('Folder not found');
+    if (!folder) return res.status(404).render('error', { message: 'Folder not found' });
 
     // The renamed card lives in the parent's view, so go back there
     const redirectTo = folder.parentId ? `/folders/${folder.parentId}` : '/dashboard';
@@ -121,7 +121,7 @@ export const deleteFolder = async (req, res, next) => {
     const folder = await findOwnedFolder(req.params.id, req.user.id, {
       select: { id: true, parentId: true },
     });
-    if (!folder) return res.status(404).send('Folder not found');
+    if (!folder) return res.status(404).render('error', { message: 'Folder not found' });
 
     // Save where the files live on disk before their rows are gone
     const folderIds = await getDescendantIds(folder.id, req.user.id);
@@ -154,7 +154,7 @@ export const createFolder = async (req, res, next) => {
       const parent = await findOwnedFolder(req.body.parentId, req.user.id, {
         select: { id: true },
       });
-      if (!parent) return res.status(404).send('Folder not found');
+      if (!parent) return res.status(404).render('error', { message: 'Folder not found' });
       parentId = parent.id;
     }
 

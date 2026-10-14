@@ -10,7 +10,6 @@ import folderRoutes from './routes/folderRoutes.js';
 import fileRoutes from './routes/fileRoutes.js';
 import { formatSize } from './lib/format.js';
 import { MAX_FILE_SIZE } from './config/multer.js';
-
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -57,6 +56,18 @@ app.use((req, res, next) => {
 app.use('/', authRoutes);
 app.use('/', folderRoutes);
 app.use('/', fileRoutes);
+
+// No route matched the request
+app.use((req, res) => {
+  res.status(404).render('error', { message: 'Page not found' });
+});
+
+// Unexpected errors (anything passed to next(err)): the details stay in the
+// server log, never on the page
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).render('error', { message: 'Something went wrong' });
+});
 
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);

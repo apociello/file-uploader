@@ -55,7 +55,9 @@ a:hover {
 
 /* ---------- Buttons ---------- */
 .btn {
+  display: inline-block; /* so links styled as buttons get the same box */
   padding: 0.55rem 1rem;
+  text-align: center;
   font: inherit;
   color: var(--text);
   background: var(--bg-content);
@@ -67,6 +69,7 @@ a:hover {
 
 .btn:hover {
   background: var(--bg-hover);
+  text-decoration: none;
 }
 
 .btn--primary {

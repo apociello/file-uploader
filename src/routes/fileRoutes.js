@@ -14,8 +14,10 @@ router.post('/files/:id/delete', ensureAuthenticated, deleteFile);
 router.use((err, req, res, next) => {
   if (!(err instanceof multer.MulterError)) return next(err);
 
-  if (err.code === 'LIMIT_FILE_SIZE') return res.status(413).send('File is too large');
-  res.status(400).send('Invalid upload');
+  if (err.code === 'LIMIT_FILE_SIZE') {
+    return res.status(413).render('error', { message: 'File is too large' });
+  }
+  res.status(400).render('error', { message: 'Invalid upload' });
 });
 
 export default router;

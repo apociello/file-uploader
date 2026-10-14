@@ -1,0 +1,12 @@
+<%# Reuses the centered card layout from the auth pages %>
+<%- include('partials/head', { title: 'Error', stylesheet: 'auth' }) %>
+
+<main class="auth">
+  <div class="auth__card">
+    <h1 class="auth__title"><%= message %></h1>
+    <a href="/dashboard" class="btn btn--primary btn--block">Back to your files</a>
+  </div>
+</main>
+
+</body>
+</html>

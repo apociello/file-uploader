@@ -20,7 +20,7 @@ export const deleteFile = async (req, res, next) => {
     const file = await findOwnedFile(req.params.id, req.user.id, {
       select: { id: true, folderId: true, storageKey: true },
     });
-    if (!file) return res.status(404).send('File not found');
+    if (!file) return res.status(404).render('error', { message: 'File not found' });
 
     // Database first: if removing it from disk fails, the user never sees a
     // broken file, there's just an orphan left in uploads/
@@ -36,7 +36,7 @@ export const deleteFile = async (req, res, next) => {
 export const downloadFile = async (req, res, next) => {
   try {
     const file = await findOwnedFile(req.params.id, req.user.id);
-    if (!file) return res.status(404).send('File not found');
+    if (!file) return res.status(404).render('error', { message: 'File not found' });
 
     // storageKey comes from our database, never from the request,
     // so it can't point outside uploads/. The second argument is the
@@ -61,7 +61,7 @@ export const uploadFile = async (req, res, next) => {
       });
       if (!folder) {
         if (file) await fs.unlink(file.path);
-        return res.status(404).send('Folder not found');
+        return res.status(404).render('error', { message: 'Folder not found' });
       }
       folderId = folder.id;
     }
