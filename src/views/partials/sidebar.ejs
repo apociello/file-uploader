@@ -1,5 +1,42 @@
 <aside class="sidebar">
   <nav class="sidebar__nav">
-    <a href="/dashboard" class="nav-item nav-item--active"><%= username %></a>
+    
+    <a href="/dashboard" class="nav-item nav-item--active">
+      <span class="nav-item__icon" style="--icon: url('/images/house.svg')"></span>
+      <span class="nav-item__label"><%= username %></span>
+    </a>
+    
+    <button type="button" class="nav-item" commandfor="new-folder-dialog" command="show-modal">
+      <span class="nav-item__icon" style="--icon: url('/images/folder-plus.svg')"></span>
+      <span class="nav-item__label">New folder</span>
+    </button>
+
+    <button type="button" class="nav-item" commandfor="new-file-dialog" command="show-modal">
+      <span class="nav-item__icon" style="--icon: url('/images/file-plus.svg')"></span>
+      <span class="nav-item__label">New file</span>
+    </button>
+
+    <hr class="sidebar__separator" />
+    
+    <%# PREVIEW: placeholder links, not wired to real folders yet %>
+    <a href="#" class="nav-item">
+      <span class="nav-item__icon" style="--icon: url('/images/file-text.svg')"></span>
+      <span class="nav-item__label">documents</span>
+    </a>
+
+    <a href="#" class="nav-item">
+      <span class="nav-item__icon" style="--icon: url('/images/image.svg')"></span>
+      <span class="nav-item__label">images</span>
+    </a>
+
+    <a href="#" class="nav-item">
+      <span class="nav-item__icon" style="--icon: url('/images/film.svg')"></span>
+      <span class="nav-item__label">videos</span>
+    </a>
+
+    <a href="#" class="nav-item">
+      <span class="nav-item__icon" style="--icon: url('/images/music.svg')"></span>
+      <span class="nav-item__label">audios</span>
+    </a>
   </nav>
 </aside>
