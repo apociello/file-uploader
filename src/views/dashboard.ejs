@@ -8,23 +8,31 @@
     <%- include('partials/sidebar') %>
 
     <main class="content">
-      <nav aria-label="Breadcrumb">
-        <ol class="breadcrumb">
-          <% if (currentFolder) { %>
-            <li><a href="/dashboard"><%= username %></a></li>
-            <% ancestors.forEach((ancestor) => { %>
-              <li><a href="/folders/<%= ancestor.id %>"><%= ancestor.name %></a></li>
-            <% }); %>
-            <li aria-current="page"><%= currentFolder.name %></li>
-          <% } else { %>
-            <li aria-current="page"><%= username %></li>
-          <% } %>
-        </ol>
-      </nav>
+      <div class="content__header">
+        <nav aria-label="Breadcrumb">
+          <ol class="breadcrumb">
+            <% if (currentFolder) { %>
+              <li><a href="/dashboard"><%= username %></a></li>
+              <% ancestors.forEach((ancestor) => { %>
+                <li><a href="/folders/<%= ancestor.id %>"><%= ancestor.name %></a></li>
+              <% }); %>
+              <li aria-current="page"><%= currentFolder.name %></li>
+            <% } else { %>
+              <li aria-current="page"><%= username %></li>
+            <% } %>
+          </ol>
+        </nav>
 
-      <div class="toolbar">
-        <button type="button" class="btn" commandfor="new-folder-dialog" command="show-modal">New folder</button>
-        <button type="button" class="btn" commandfor="new-file-dialog" command="show-modal">New file</button>
+        <div class="toolbar">
+          <button type="button" class="btn" commandfor="new-folder-dialog" command="show-modal">
+            <img src="/images/folder-plus.svg" alt="" class="btn__icon" />
+            <span class="btn__label">New folder</span>
+          </button>
+          <button type="button" class="btn" commandfor="new-file-dialog" command="show-modal">
+            <img src="/images/file-plus.svg" alt="" class="btn__icon" />
+            <span class="btn__label">New file</span>
+          </button>
+        </div>
       </div>
 
       <dialog id="new-folder-dialog" aria-labelledby="new-folder-title">

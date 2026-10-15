@@ -60,15 +60,23 @@
   overflow-y: auto;
 }
 
+/* Breadcrumb on the left, actions on the right, on the same line */
+.content__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
 /* ---------- Breadcrumb ---------- */
 .breadcrumb {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1rem;
   list-style: none;
   font-size: 0.9rem;
   color: var(--text-muted);
+  word-break: break-word; 
 }
 
 /* Separator before every item except the first */
@@ -87,7 +95,28 @@
 
 .toolbar {
   display: flex;
+  flex-shrink: 0;
   gap: 0.5rem;
+}
+
+.toolbar .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.toolbar .btn:hover {
+  background: var(--bg-hover);
+}
+
+.btn__icon {
+  width: 18px;
+  height: 18px;
+}
+
+.btn__label {
+  align-self: baseline;
 }
 
 .empty {
