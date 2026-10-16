@@ -1,11 +1,6 @@
 <aside class="sidebar">
   <nav class="sidebar__nav">
     
-    <a href="/dashboard" class="nav-item nav-item--active">
-      <span class="nav-item__icon" style="--icon: url('/images/house.svg')"></span>
-      <span class="nav-item__label"><%= username %></span>
-    </a>
-    
     <button type="button" class="nav-item" commandfor="new-folder-dialog" command="show-modal">
       <span class="nav-item__icon" style="--icon: url('/images/folder-plus.svg')"></span>
       <span class="nav-item__label">New folder</span>
@@ -17,6 +12,11 @@
     </button>
 
     <hr class="sidebar__separator" />
+
+    <a href="/dashboard" class="nav-item nav-item--active">
+      <span class="nav-item__icon" style="--icon: url('/images/house.svg')"></span>
+      <span class="nav-item__label"><%= username %></span>
+    </a>
     
     <%# PREVIEW: placeholder links, not wired to real folders yet %>
     <a href="#" class="nav-item">

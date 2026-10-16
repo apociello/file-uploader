@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import passport from '../config/passport.js';
 import { prisma } from '../lib/prisma.js';
+import { SYSTEM_FOLDERS } from '../lib/systemFolders.js';
 
 export const loginGet = (req, res) => {
   const messages = req.session.messages || [];
@@ -33,7 +34,13 @@ export const registerPost = async (req, res, next) => {
     const passwordHash = await bcrypt.hash(password, 10);
 
     await prisma.user.create({
-      data: { email, passwordHash },
+      data: {
+        email,
+        passwordHash,
+        folders: {
+          create: SYSTEM_FOLDERS.map(({ name }) => ({ name, isSystem: true })),
+        },
+      },
     });
 
     res.redirect('/login');

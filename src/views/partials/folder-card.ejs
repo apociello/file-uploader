@@ -4,6 +4,7 @@
     <span class="folder-card__name"><%= folder.name %></span>
   </a>
 
+  <% if (!folder.isSystem) { %>
   <button
     type="button"
     class="folder-card__menu-btn"
@@ -44,4 +45,5 @@
       </div>
     </form>
   </dialog>
+  <% } %>
 </li>

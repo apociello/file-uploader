@@ -57,7 +57,7 @@ export const dashboard = async (req, res, next) => {
     const [folders, files] = await Promise.all([
       prisma.folder.findMany({
         where: { ownerId: req.user.id, parentId: null },
-        orderBy: { name: 'asc' },
+        orderBy: { id: 'asc' },
       }),
       prisma.file.findMany({
         where: { ownerId: req.user.id, folderId: null },
