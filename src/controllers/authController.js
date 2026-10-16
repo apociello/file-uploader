@@ -23,11 +23,11 @@ export const registerGet = (req, res) => {
 
 export const registerPost = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+    const existingUser = await prisma.user.findUnique({ where: { username } });
     if (existingUser) {
-      req.session.messages = ['Email already in use'];
+      req.session.messages = ['Username already taken'];
       return res.redirect('/register');
     }
 
@@ -35,7 +35,7 @@ export const registerPost = async (req, res, next) => {
 
     await prisma.user.create({
       data: {
-        email,
+        username,
         passwordHash,
         folders: {
           create: SYSTEM_FOLDERS.map(({ name }) => ({ name, isSystem: true })),

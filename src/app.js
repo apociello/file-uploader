@@ -49,7 +49,7 @@ app.use(passport.session());
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
-  res.locals.username = req.user?.email.split('@')[0];
+  res.locals.username = req.user?.username;
   next();
 });
 

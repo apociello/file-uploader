@@ -7,8 +7,18 @@
     <form action="/register" method="POST">
         
       <div class="field">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" autocomplete="email" required />
+        <label for="username">Username</label>
+        <input
+          id="username"
+          name="username"
+          type="text"
+          autocomplete="username"
+          minlength="3"
+          maxlength="20"
+          pattern="[A-Za-z0-9_\-]+"
+          title="3-20 characters: letters, numbers, - and _"
+          required
+        />
       </div>
 
       <div class="field">
