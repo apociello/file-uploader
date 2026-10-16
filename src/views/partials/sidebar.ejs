@@ -1,6 +1,6 @@
+<% const currentId = locals.currentFolder?.id; %>
 <aside class="sidebar">
   <nav class="sidebar__nav">
-    
     <button type="button" class="nav-item" commandfor="new-folder-dialog" command="show-modal">
       <span class="nav-item__icon" style="--icon: url('/images/folder-plus.svg')"></span>
       <span class="nav-item__label">New folder</span>
@@ -13,30 +13,16 @@
 
     <hr class="sidebar__separator" />
 
-    <a href="/dashboard" class="nav-item nav-item--active">
+    <a href="/dashboard" class="nav-item <%= currentId ? '' : 'nav-item--active' %>">
       <span class="nav-item__icon" style="--icon: url('/images/house.svg')"></span>
       <span class="nav-item__label"><%= username %></span>
     </a>
-    
-    <%# PREVIEW: placeholder links, not wired to real folders yet %>
-    <a href="#" class="nav-item">
-      <span class="nav-item__icon" style="--icon: url('/images/file-text.svg')"></span>
-      <span class="nav-item__label">documents</span>
-    </a>
 
-    <a href="#" class="nav-item">
-      <span class="nav-item__icon" style="--icon: url('/images/image.svg')"></span>
-      <span class="nav-item__label">images</span>
-    </a>
-
-    <a href="#" class="nav-item">
-      <span class="nav-item__icon" style="--icon: url('/images/film.svg')"></span>
-      <span class="nav-item__label">videos</span>
-    </a>
-
-    <a href="#" class="nav-item">
-      <span class="nav-item__icon" style="--icon: url('/images/music.svg')"></span>
-      <span class="nav-item__label">audios</span>
-    </a>
+    <% systemFolders.forEach((folder) => { %>
+      <a href="/folders/<%= folder.id %>" class="nav-item <%= folder.id === currentId ? 'nav-item--active' : '' %>">
+        <span class="nav-item__icon" style="--icon: url('/images/<%= folder.icon %>.svg')"></span>
+        <span class="nav-item__label"><%= folder.name %></span>
+      </a>
+    <% }); %>
   </nav>
 </aside>

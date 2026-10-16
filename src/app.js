@@ -10,6 +10,7 @@ import folderRoutes from './routes/folderRoutes.js';
 import fileRoutes from './routes/fileRoutes.js';
 import { formatSize } from './lib/format.js';
 import { MAX_FILE_SIZE } from './config/multer.js';
+import { loadSystemFolders } from './middlewares/middleware.js';
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -51,6 +52,8 @@ app.use((req, res, next) => {
   res.locals.username = req.user?.email.split('@')[0];
   next();
 });
+
+app.use(loadSystemFolders);
 
 // Routes
 app.use('/', authRoutes);
