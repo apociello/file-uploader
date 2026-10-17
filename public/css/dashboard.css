@@ -203,20 +203,15 @@ button.nav-item {
 .file-list__item {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem;
   padding: 0.75rem 0.5rem;
   border-bottom: 1px solid var(--border);
 }
 
-/* Takes the free space, pushing size and actions to the right */
+/* Takes the free space, pushing the actions to the right */
 .file-list__name {
   flex: 1;
   word-break: break-word;
-}
-
-.file-list__size {
-  flex-shrink: 0;
-  color: var(--text-muted);
 }
 
 /* Small square button that only shows an icon */
@@ -232,6 +227,19 @@ button.nav-item {
 .icon-btn img {
   width: 21px;
   height: 21px;
+}
+
+/* Labels in the first column, values in the second */
+.file-info dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.4rem 1.75rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+}
+
+.file-info dt {
+  color: var(--text-muted);
 }
 
 /* ---------- Popover menu ---------- */

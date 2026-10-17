@@ -8,7 +8,7 @@ import session from 'express-session';
 import authRoutes from './routes/authRoutes.js';
 import folderRoutes from './routes/folderRoutes.js';
 import fileRoutes from './routes/fileRoutes.js';
-import { formatSize } from './lib/format.js';
+import { formatSize, formatDate } from './lib/format.js';
 import { MAX_FILE_SIZE } from './config/multer.js';
 import { loadSystemFolders } from './middlewares/middleware.js';
 const app = express();
@@ -23,6 +23,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Available in every view
 app.locals.formatSize = formatSize;
+app.locals.formatDate = formatDate;
 app.locals.MAX_FILE_SIZE = MAX_FILE_SIZE;
 
 app.use(express.static(path.join(__dirname, '../public')));

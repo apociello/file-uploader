@@ -81,7 +81,21 @@
           <% files.forEach((file) => { %>
             <li class="file-list__item">
               <span class="file-list__name"><%= file.name %></span>
-              <span class="file-list__size"><%= formatSize(file.size) %></span>
+              <button type="button" class="icon-btn" popovertarget="file-info-<%= file.id %>" aria-label="Details of <%= file.name %>" title="Details">
+                <img src="/images/info.svg" alt="" />
+              </button>
+
+              <div id="file-info-<%= file.id %>" class="menu file-info" popover>
+                <dl>
+                  <dt>Size</dt>
+                  <dd><%= formatSize(file.size) %></dd>
+                  <dt>Uploaded</dt>
+                  <dd><%= formatDate(file.createdAt) %></dd>
+                  <dt>Type</dt>
+                  <dd><%= file.mimeType %></dd>
+                </dl>
+              </div>
+
               <a href="/files/<%= file.id %>/download" class="icon-btn" aria-label="Download <%= file.name %>" title="Download">
                 <img src="/images/download.svg" alt="" />
               </a>
