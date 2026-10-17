@@ -49,7 +49,6 @@ model File {
   mimeType   String
   size       Int
   storageKey String   @unique
-  storageUrl String?
   ownerId    Int
   folderId   Int?
   createdAt  DateTime @default(now())
