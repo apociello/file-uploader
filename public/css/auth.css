@@ -1,5 +1,5 @@
 body {
-  background: radial-gradient(ellipse at top left, #2a1608 0%, var(--bg-page) 55%);
+  background: radial-gradient(ellipse at top left, #1f1f20 0%, var(--bg-page) 55%);
   background-attachment: fixed;
 }
 

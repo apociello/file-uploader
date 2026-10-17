@@ -12,9 +12,9 @@
   --text: #f2f2f2;
   --text-muted: #9a9a9d;
 
-  --accent: #e8a13a;
-  --accent-hover: #f0b050;
-  --focus-ring: 0 0 0 3px rgba(232, 161, 58, 0.35);
+  --accent: #707076;
+  --link: #f2f2f2;
+  --focus-ring: 0 0 0 3px rgba(255, 255, 255, 0.08);
 
   --danger-text: #f3b3ad;
   --danger-bg: rgba(229, 100, 90, 0.12);
@@ -39,7 +39,7 @@ body {
 }
 
 a {
-  color: var(--accent);
+  color: var(--link);
   text-decoration: none;
 }
 
@@ -74,13 +74,14 @@ a:hover {
 
 .btn--primary {
   font-weight: 600;
-  color: #1a0e03;
-  background: var(--accent);
-  border-color: var(--accent);
+  color: var(--bg-topbar);
+  background: #efeff1;
+  border-color: #efeff1;
 }
 
 .btn--primary:hover {
-  background: var(--accent-hover);
+  background: #ffffff;
+  border-color: #ffffff;
 }
 
 .btn--danger {
@@ -115,7 +116,7 @@ a:hover {
   padding: 0.6rem 0.8rem;
   font: inherit;
   color: var(--text);
-  background: var(--bg-content);
+  background: rgba(0, 0, 0, 0.25);
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
