@@ -1,7 +1,7 @@
-import fs from 'fs/promises';
-import path from 'path';
+import { Readable } from 'stream';
+import { pipeline } from 'stream/promises';
 import { prisma } from '../lib/prisma.js';
-import { UPLOADS_DIR } from '../config/multer.js';
+import { uploadToStorage, deleteFromStorage, signedDownloadUrl } from '../config/cloudinary.js';
 import { findOwnedFolder } from './folderController.js';
 
 // Same idea as findOwnedFolder: someone else's file is treated as not found
@@ -22,10 +22,10 @@ export const deleteFile = async (req, res, next) => {
     });
     if (!file) return res.status(404).render('error', { message: 'File not found' });
 
-    // Database first: if removing it from disk fails, the user never sees a
-    // broken file, there's just an orphan left in uploads/
+    // Database first: if removing it from Cloudinary fails, the user never
+    // sees a broken file, there's just an orphan left in storage
     await prisma.file.delete({ where: { id: file.id } });
-    await fs.unlink(path.join(UPLOADS_DIR, file.storageKey)).catch(() => {});
+    await deleteFromStorage(file.storageKey).catch(() => {});
 
     res.redirect(file.folderId ? `/folders/${file.folderId}` : '/dashboard');
   } catch (err) {
@@ -38,19 +38,19 @@ export const downloadFile = async (req, res, next) => {
     const file = await findOwnedFile(req.params.id, req.user.id);
     if (!file) return res.status(404).render('error', { message: 'File not found' });
 
-    // storageKey comes from our database, never from the request,
-    // so it can't point outside uploads/. The second argument is the
-    // name the browser saves it with.
-    res.download(path.join(UPLOADS_DIR, file.storageKey), file.name);
+    const response = await fetch(signedDownloadUrl(file.storageKey));
+    if (!response.ok) throw new Error(`Cloudinary download failed with ${response.status}`);
+
+    // Sent with its original name, piped through in chunks as it arrives
+    res.attachment(file.name);
+    res.type(file.mimeType);
+    await pipeline(Readable.fromWeb(response.body), res);
   } catch (err) {
     next(err);
   }
 };
 
 export const uploadFile = async (req, res, next) => {
-  // Multer has already saved the file to disk before we get here
-  const file = req.file;
-
   try {
     let folderId = null;
 
@@ -59,30 +59,34 @@ export const uploadFile = async (req, res, next) => {
       const folder = await findOwnedFolder(req.body.folderId, req.user.id, {
         select: { id: true },
       });
-      if (!folder) {
-        if (file) await fs.unlink(file.path);
-        return res.status(404).render('error', { message: 'Folder not found' });
-      }
+      if (!folder) return res.status(404).render('error', { message: 'Folder not found' });
       folderId = folder.id;
     }
 
     const redirectTo = folderId ? `/folders/${folderId}` : '/dashboard';
-    if (!file) return res.redirect(redirectTo);
+    if (!req.file) return res.redirect(redirectTo);
 
-    await prisma.file.create({
-      data: {
-        name: file.originalname,
-        mimeType: file.mimetype,
-        size: file.size,
-        storageKey: file.filename,
-        ownerId: req.user.id,
-        folderId,
-      },
-    });
+    const storageKey = await uploadToStorage(req.file);
+
+    try {
+      await prisma.file.create({
+        data: {
+          name: req.file.originalname,
+          mimeType: req.file.mimetype,
+          size: req.file.size,
+          storageKey,
+          ownerId: req.user.id,
+          folderId,
+        },
+      });
+    } catch (err) {
+      // Don't leave a file in Cloudinary that no database row points to
+      await deleteFromStorage(storageKey).catch(() => {});
+      throw err;
+    }
+
     res.redirect(redirectTo);
   } catch (err) {
-    // Don't leave a file on disk that no database row points to
-    if (file) await fs.unlink(file.path).catch(() => {});
     next(err);
   }
 };

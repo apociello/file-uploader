@@ -1,7 +1,5 @@
-import fs from 'fs/promises';
-import path from 'path';
 import { prisma } from '../lib/prisma.js';
-import { UPLOADS_DIR } from '../config/multer.js';
+import { deleteFromStorage } from '../config/cloudinary.js';
 
 // Walks up the parent chain, returning ancestors from the root down
 const getAncestors = async (folder, ownerId) => {
@@ -133,10 +131,8 @@ export const deleteFolder = async (req, res, next) => {
     // Subfolders and files are removed by the database (onDelete: Cascade in the schema)
     await prisma.folder.delete({ where: { id: folder.id } });
 
-    // The database only removes rows, so clean up uploads/ ourselves
-    await Promise.all(
-      files.map((file) => fs.unlink(path.join(UPLOADS_DIR, file.storageKey)).catch(() => {})),
-    );
+    // The database only removes rows, so clean up Cloudinary ourselves
+    await Promise.all(files.map((file) => deleteFromStorage(file.storageKey).catch(() => {})));
 
     res.redirect(folder.parentId ? `/folders/${folder.parentId}` : '/dashboard');
   } catch (err) {

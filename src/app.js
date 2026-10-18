@@ -70,6 +70,8 @@ app.use((req, res) => {
 // server log, never on the page
 app.use((err, req, res, next) => {
   console.error(err);
+  // A download that failed halfway: too late to send a page, Express closes it
+  if (res.headersSent) return next(err);
   res.status(500).render('error', { message: 'Something went wrong' });
 });
 
