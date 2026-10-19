@@ -12,9 +12,11 @@
   --text: #f2f2f2;
   --text-muted: #9a9a9d;
 
-  --accent: #707076;
+  --accent: #5590ef;
+  --accent-bg: #2f6fd6;
+  --accent-bg-hover: #3b7be3;
   --link: #f2f2f2;
-  --focus-ring: 0 0 0 3px rgba(255, 255, 255, 0.08);
+  --focus-ring: 0 0 0 3px rgba(85, 144, 239, 0.4);
 
   --danger-text: #f3b3ad;
   --danger-bg: rgba(229, 100, 90, 0.12);
@@ -74,14 +76,12 @@ a:hover {
 
 .btn--primary {
   font-weight: 600;
-  color: var(--bg-topbar);
-  background: #efeff1;
-  border-color: #efeff1;
+  background: var(--accent-bg);
+  border-color: var(--accent);
 }
 
 .btn--primary:hover {
-  background: #ffffff;
-  border-color: #ffffff;
+  background: var(--accent-bg-hover);
 }
 
 .btn--danger {
