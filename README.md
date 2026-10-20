@@ -4,6 +4,8 @@ A file storage app where users can sign up, organize their files in nested folde
 
 🔗 [Live Demo](https://file-uploader-kvtl.onrender.com)
 
+## Screenshot
+
 ![Folder view with subfolders, files and the file details popover](screenshots/folder-view.png)
 
 ## Features
