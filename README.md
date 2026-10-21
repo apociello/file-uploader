@@ -6,7 +6,7 @@ A file storage app where users can sign up, organize their files in nested folde
 
 ## Screenshot
 
-![Folder view with subfolders, files and the file details popover](screenshots/folder-view.png)
+![Folder view with subfolders and files](screenshots/folder-view.png)
 
 ## Features
 
